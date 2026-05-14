@@ -84,3 +84,12 @@ select.premium-input {
 }
 .iti { width: 100%; }
 .iti__tel-input { min-height: 60px !important; border-radius: 1rem !important; }
+.timer-segment {
+    min-width: 80px; /* Keeps digits from jumping around */
+}
+
+@media (max-width: 640px) {
+    .timer-segment {
+        min-width: 50px;
+    }
+}

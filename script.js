@@ -52,3 +52,36 @@ function showSuccessUI() {
         </div>
     `;
 }
+function startCountdown() {
+    const deadline = new Date("June 30, 2026 23:59:59").getTime();
+
+    const timer = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = deadline - now;
+
+        // Time calculations
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the results
+        document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+        document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+        document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+        document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+
+        // If the countdown is finished
+        if (distance < 0) {
+            clearInterval(timer);
+            document.getElementById("form-container").innerHTML = `
+                <div class="p-20 text-center">
+                    <h2 class="text-3xl font-black text-slate-900">Registration Closed</h2>
+                    <p class="text-slate-500 mt-4">This intake is full. Follow us for future dates.</p>
+                </div>`;
+        }
+    }, 1000);
+}
+
+// Initialize on load
+startCountdown();
