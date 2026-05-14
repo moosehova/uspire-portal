@@ -6,36 +6,51 @@ const iti = window.intlTelInput(phoneInput, {
     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
 });
 
-// Handle Registration and Payment
+// Helper for Premium Notifications
+function showToast(message, type = 'error') {
+    const toast = document.getElementById('notification-toast');
+    const icon = document.getElementById('toast-icon');
+    const msg = document.getElementById('toast-message');
+
+    msg.innerText = message;
+    icon.className = type === 'success' ? 'w-8 h-8 rounded-full flex items-center justify-center bg-green-500' : 'w-8 h-8 rounded-full flex items-center justify-center bg-red-500';
+    icon.innerHTML = type === 'success' ? '✓' : '!';
+
+    toast.classList.remove('hidden');
+    setTimeout(() => toast.classList.add('hidden'), 4000);
+}
+
 document.getElementById('registrationForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     if (typeof LencoPay === 'undefined') {
-        alert("Payment gateway is still loading. Please wait 2 seconds.");
+        showToast("Payment system is warming up...");
         return;
     }
 
-    const email = document.getElementById('email').value;
-    const fullName = document.getElementById('full_name').value;
+    try {
+        const email = document.getElementById('email').value; // Explicitly capturing email
+        const fullName = document.getElementById('full_name').value;
+        const occupation = document.getElementById('occupation').value;
+        const gender = document.getElementById('gender').value;
 
-    LencoPay.getPaid({
-        key: 'pub-88dd921c0ecd73590459a1dd5a9343c77db0f3c344f222b9', // Sandbox Public Key
-        reference: 'USPIRE-' + Date.now(),
-        email: email,
-        amount: 5000, // ZMW
-        currency: "ZMW",
-        channels: ["card", "mobile-money"],
-        customer: {
-            firstName: fullName,
-            phone: iti.getNumber(),
-        },
-        onSuccess: function (response) {
-            showSuccessUI();
-        },
-        onClose: function () {
-            console.log('Payment window closed.');
-        }
-    });
+        LencoPay.getPaid({
+            key: 'pub-88dd921c0ecd73590459a1dd5a9343c77db0f3c344f222b9',
+            reference: 'USPIRE-' + Date.now(),
+            email: email, // Email passed to gateway
+            amount: 5000,
+            currency: "ZMW",
+            customer: {
+                firstName: fullName,
+                phone: iti.getNumber(),
+            },
+            metadata: { occupation, gender },
+            onSuccess: () => showSuccessUI(),
+            onClose: () => console.log('Window closed')
+        });
+    } catch (error) {
+        showToast("Please check all fields"); // Replacing the basic alert in image_87c25b.png
+    }
 });
 
 function showSuccessUI() {
