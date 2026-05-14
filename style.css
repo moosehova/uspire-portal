@@ -49,4 +49,38 @@ header {
 
 /* intl-tel-input compatibility */
 .iti { width: 100%; }
+.iti__country-list { color: #1e293b; font-weight: bold; border-radius: 1rem; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+.iti__tel-input { min-height: 60px !important; border-radius: 1rem !important; }
+
+/* Floating WhatsApp Button */
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    z-index: 9999;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1) translateY(-5px);
+}
+
+/* Premium Select Styling */
+select.premium-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234a148c'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.5rem center;
+    background-size: 1.2rem;
+}
+.iti { width: 100%; }
 .iti__tel-input { min-height: 60px !important; border-radius: 1rem !important; }
